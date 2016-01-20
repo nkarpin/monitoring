@@ -6,6 +6,10 @@ DEVSTACK_CONF="$DEVSTACK_PATH/local.conf"
 DEVSTACK_HOST_IP=`grep HOST_IP $DEVSTACK_CONF | cut -f 2 -d =`
 DEVSTACK_HOST_NAME=`hostname -f`
 
+OPENSTACK_USER="admin"
+OPENSTACK_PASSWORD="secrete"
+OPENSTACK_TENANT="admin"
+
 #ZABBIX SETTINGS
 ZABBIX_RELEASE="2.4"
 RELEASE_REPO="http://repo.zabbix.com/zabbix/$ZABBIX_RELEASE/ubuntu/pool/main/z/zabbix-release/zabbix-release_$ZABBIX_RELEASE-1+trusty_all.deb"
@@ -50,5 +54,13 @@ cp zabbix_agentd.conf /etc/zabbix/
 sed -i "s/%HOSTNAME%/$DEVSTACK_HOST_NAME/g" /etc/zabbix/zabbix_agentd.conf
 
 sed -i "s/%ZABBIXSERVER%/$ZABBIX_SERVER/g" /etc/zabbix/zabbix_agentd.conf
+
+sed -i "s/%DEVSTACKHOSTIP%/$DEVSTACK_HOST_IP/g" /etc/zabbix/check_api.conf
+
+sed -i "s/%OPENSTACKUSER%/$OPENSTACK_USER/g" /etc/zabbix/check_api.conf
+
+sed -i "s/%OPENSTACKPASS%/$OPENSTACK_PASSWORD/g" /etc/zabbix/check_api.conf
+
+sed -i "s/%OPENSTACKTEN%/$OPENSTACK_TENANT/g" /etc/zabbix/check_api.conf
 
 service zabbix-agent start
