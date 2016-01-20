@@ -16,9 +16,10 @@ PARAMS_DIR=/etc/zabbix/zabbix_agentd.d
 
 #INSTALL ZABBIX AGENT
 REPO_FILE=`mktemp`
+
 wget "$RELEASE_REPO" -qO $REPO_FILE && sudo dpkg -i $REPO_FILE
 rm $REPO_FILE
-sudo apt-get update && sudo apt-get install zabbix-agent
+apt-get update && apt-get install zabbix-agent
 service zabbix-agent stop
 
 #GENERATE ZABBIX USERPARAMETERS
@@ -37,7 +38,6 @@ echo "UserParameter=glance.api.status,/etc/zabbix/scripts/check_api.py glance ht
 
 #nova
 echo "UserParameter=nova.api.status,/etc/zabbix/scripts/check_api.py nova_os http $DEVSTACK_HOST_IP 8774" > "$PARAMS_DIR/nova_api_status.conf"
-
 
 cp -r scripts /etc/zabbix/
 
