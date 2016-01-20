@@ -11,6 +11,11 @@ wget "$RELEASE_REPO" -qO $REPO_FILE && sudo dpkg -i $REPO_FILE
 rm $REPO_FILE
 sudo apt-get update && sudo apt-get install zabbix-agent
 
+#AGENT SETTINGS
+
+ZABBIX_SERVER=server.domain.tld
+HOST_NAME=`hostname -f`
+
 #GENERATE USERPARAMETERS
 
 HOST_IP=127.0.0.1
@@ -38,3 +43,7 @@ cp check_api.conf /etc/zabbix/
 
 mv /etc/zabbix/zabbix_agentd.conf /etc/zabbix/zabbix_agentd.conf_old
 cp zabbix_agentd.conf /etc/zabbix/
+
+sed -i "s/%HOSTNAME%/$HOST_NAME/g" /etc/zabbix/zabbix_agentd.conf
+
+sed -i "s/%ZABBIXSERVER%/$ZABBIX_SERVER/g" /etc/zabbix/zabbix_agentd.conf
