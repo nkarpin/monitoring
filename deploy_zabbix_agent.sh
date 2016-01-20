@@ -21,6 +21,8 @@ HOST_NAME=`hostname -f`
 HOST_IP=127.0.0.1
 PARAMS_DIR=/etc/zabbix/zabbix_agentd.d
 
+service zabbix-agent stop
+
 #keystone
 echo "UserParameter=keystone.api.status,/etc/zabbix/scripts/check_api.py keystone http $HOST_IP 5000" > "$PARAMS_DIR/keystone_api_status.conf"
 echo "UserParameter=keystone.service.api.status,/etc/zabbix/scripts/check_api.py keystone_service http $HOST_IP 35357" > "$PARAMS_DIR/keystone_service_api_status.conf"
@@ -47,3 +49,5 @@ cp zabbix_agentd.conf /etc/zabbix/
 sed -i "s/%HOSTNAME%/$HOST_NAME/g" /etc/zabbix/zabbix_agentd.conf
 
 sed -i "s/%ZABBIXSERVER%/$ZABBIX_SERVER/g" /etc/zabbix/zabbix_agentd.conf
+
+service zabbix-agent start
